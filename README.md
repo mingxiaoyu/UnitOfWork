@@ -18,7 +18,45 @@
             _unitOfWork = unitOfWork;
         }
  ```  
+ 
+ ### DBContext
+ ```csharp
+ public class BloggingContext : DbContextBase
+ _unitOfWork.Commit();
+ ``` 
+ ### Table extends  EntityTypeConfiguration
+  ```csharp
+ public class Blog : TrackedAndSoftDelete
+    {
+        public string Url { get; set; }
+    }
 
+    public class BlogMap : EntityTypeConfiguration<Blog>
+    {
+        public override void Configure(EntityTypeBuilder<Blog> builder)
+        {
+            builder.ToTable("Blogs");
+            builder.Property(x => x.Url).HasMaxLength(100);
+            base.Configure(builder);
+        }
+    }
+ ``` 
+ ### View  extends  QueryTypeConfiguration
+   ```csharp
+  public class BlogsView
+    {
+        public string Url { get; set; }
+    }
+
+    public class BlogsViewMap : QueryTypeConfiguration<BlogsView>
+    {
+        public override void Configure(QueryTypeBuilder<BlogsView> builder)
+        {
+            builder.ToView("BolgViews");
+            base.Configure(builder);
+        }
+    }
+ ``` 
 ### Insert : 
 ```csharp
 var user = _repository.Insert(new Blog() { Url = value });
