@@ -1,0 +1,41 @@
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Mingxiaoyu.Microsoft.EntityFrameworkCore;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using Xunit;
+using System.Linq;
+
+namespace UnitOfWork.Tests
+{
+    public class ViewTests
+    {
+
+        [Fact]
+        public async Task BolgViewTest()
+        {
+            var services = new ServiceCollection();
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            services.AddUnitOfWork<BloggingContext>(x => x.UseSqlite(connection), typeof(BlogServiceTests).GetTypeInfo().Assembly);
+            var provider = services.BuildServiceProvider();
+
+            var context = provider.GetService<BloggingContext>();
+            context.Database.Migrate();
+            var uow = provider.GetService<IUnitOfWork>();
+            var blogRepository = provider.GetService<IRepository<Blog>>();
+            var bolgViewRepository = provider.GetService<IRepository<BlogsView>>();
+
+            var bolg = new Blog() { Url = "Url" };
+            var blogdb = await blogRepository.InsertAsync(bolg);
+            await uow.CommitAsync();
+            var list = bolgViewRepository.Table.ToList();
+
+            Assert.True(list != null);
+            Assert.True(list.Count == 1);
+        }
+
+    }
+}
