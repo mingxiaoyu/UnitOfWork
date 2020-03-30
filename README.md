@@ -22,9 +22,9 @@
  ### DBContext
  ```csharp
  public class BloggingContext : DbContextBase
- _unitOfWork.Commit();
  ``` 
- ### Table extends  EntityTypeConfiguration
+ ### Table 
+        The entity extends  EntityTypeConfiguration, it will auto apply into dbcontext as table
   ```csharp
  public class Blog : TrackedAndSoftDelete
     {
@@ -41,7 +41,8 @@
         }
     }
  ``` 
- ### View  extends  QueryTypeConfiguration
+ ### View  
+        The entity extends  QueryTypeConfiguration, it will auto apply into dbcontext as table
    ```csharp
   public class BlogsView
     {
