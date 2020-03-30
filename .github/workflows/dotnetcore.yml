@@ -18,6 +18,9 @@ jobs:
       with:
         source-url: https://nuget.pkg.github.com/mingxiaoyu/index.json
         dotnet-version: 2.2.401
+      env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
     - name: Install dependencies
       run: dotnet restore
     - name: Build
