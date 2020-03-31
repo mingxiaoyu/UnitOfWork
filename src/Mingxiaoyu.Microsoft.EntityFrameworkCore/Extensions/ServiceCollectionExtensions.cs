@@ -10,6 +10,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         internal static IServiceCollection ServiceCollection { get; set; }
 
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction = null)
+            where TContext : DbContext, IDbContext
+            => AddUnitOfWork<TContext>(services, optionsAction, AppDomain.CurrentDomain.GetAssemblies());
+
         public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction = null, params Assembly[] assemblies)
             where TContext : DbContext, IDbContext
         {
@@ -18,10 +22,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (assemblies == null)
             {
-                //TODO : AppDomain.CurrentDomain.GetAssemblies() have one bug.
-                //assemblies = AppDomain.CurrentDomain.GetAssemblies();
                 throw new ArgumentNullException(nameof(assemblies));
             }
+
+            assemblies = assemblies.Where(x => x != typeof(IRepository<>).Assembly).ToArray();
 
             services.AddScoped<IDbContext, TContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
