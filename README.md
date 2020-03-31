@@ -1,4 +1,5 @@
-![.NET Core](https://github.com/mingxiaoyu/UnitOfWork/workflows/.NET%20Core/badge.svg)
+![build&Test](https://github.com/mingxiaoyu/UnitOfWork/workflows/build&Test/badge.svg)
+![push](https://github.com/mingxiaoyu/UnitOfWork/workflows/push/badge.svg)
 
 # Quickly start
 
