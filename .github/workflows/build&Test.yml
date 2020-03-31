@@ -3,6 +3,10 @@ name: build&Test
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      -'README.md'
+      -'.github/workflows/build&Test.yml'
+       
   pull_request:
     branches: [ master ]
 
