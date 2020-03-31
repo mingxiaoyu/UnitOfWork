@@ -69,7 +69,11 @@ jobs:
         version=`git describe --tags`
         cd src/Mingxiaoyu.Microsoft.EntityFrameworkCore
         dotnet pack --output out --configuration Release  -p:Version=$version
-        dotnet nuget push out/Mingxiaoyu.Microsoft.EntityFrameworkCore.$version.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json 
+    - name: Push generated package to GitHub registry
+      run: |  
+        version=`git describe --tags`
+        cd src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out
+        dotnet nuget push Mingxiaoyu.Microsoft.EntityFrameworkCore.$version.nupkg  -s https://api.nuget.org/v3/index.json  -k ${{ secrets.NUGET_API_KEY }}
 
 
 
