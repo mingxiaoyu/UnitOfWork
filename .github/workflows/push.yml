@@ -71,5 +71,5 @@ jobs:
         dotnet pack --output out --configuration Release  -p:Version=$version
 
     - name: Push generated package to Nuget registry
-      run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json:  
+      run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json 
 
