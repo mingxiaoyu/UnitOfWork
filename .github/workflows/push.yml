@@ -28,24 +28,19 @@ jobs:
         echo "::set-output name=status::success"
 
     - name: Build solution and generate NuGet package
-      if: steps.organize.outputs.status == 'success' && !cancelled()
       run: |  
         version=`git describe --tags`
         cd src/Mingxiaoyu.Microsoft.EntityFrameworkCore
         dotnet pack --output out --configuration Release  -p:Version=$version
-        echo "::set-output name=status::success"
 
     - name: Push generated package to Nuget registry
-      if: steps.organize.outputs.status == 'success' && !cancelled()
       run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
     - name: Push generated package to GitHub registry
-      if: steps.organize.outputs.status == 'success' && !cancelled() 
       run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg
     
     - name: Create Release
       uses: actions/create-release@master
-      if: steps.organize.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
