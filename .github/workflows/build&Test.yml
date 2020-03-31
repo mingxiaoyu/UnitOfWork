@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - README.md
       - .github/workflows/build&Test.yml
+      - .github/workflows/push.yml
   pull_request:
     branches: [ master ]
 
