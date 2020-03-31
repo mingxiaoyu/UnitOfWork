@@ -1,5 +1,4 @@
 ![build&Test](https://github.com/mingxiaoyu/UnitOfWork/workflows/build&Test/badge.svg)
-![push](https://github.com/mingxiaoyu/UnitOfWork/workflows/push/badge.svg)
 
 # Quickly start
 
