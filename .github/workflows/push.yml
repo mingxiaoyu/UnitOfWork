@@ -7,7 +7,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.401    
 
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: |
+        dotnet test --no-restore --verbosity normal
+        
+  gitHubpublish:
+    needs: build
+    name: Publish Project to GitHub
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -17,25 +35,11 @@ jobs:
         dotnet-version: 2.2.401
       env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: |
-        dotnet test --no-restore --verbosity normal
-        echo "::set-output name=status::success"
-
     - name: Build solution and generate NuGet package
       run: |  
         version=`git describe --tags`
         cd src/Mingxiaoyu.Microsoft.EntityFrameworkCore
         dotnet pack --output out --configuration Release  -p:Version=$version
-
-    - name: Push generated package to Nuget registry
-      run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-
     - name: Push generated package to GitHub registry
       run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg
     
@@ -48,4 +52,24 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: true
+
+  nuGetpublish:
+    needs: build
+    name: Publish Project to NuGet
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.401
+
+    - name: Build solution and generate NuGet package
+      run: |  
+        version=`git describe --tags`
+        cd src/Mingxiaoyu.Microsoft.EntityFrameworkCore
+        dotnet pack --output out --configuration Release  -p:Version=$version
+
+    - name: Push generated package to Nuget registry
+      run: dotnet nuget push src/Mingxiaoyu.Microsoft.EntityFrameworkCore/out/*.nupkg  -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json:  
 
