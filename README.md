@@ -18,7 +18,46 @@
             _unitOfWork = unitOfWork;
         }
  ```  
+ 
+ ### DBContext
+ ```csharp
+ public class BloggingContext : DbContextBase
+ ``` 
+ ### Table 
+        The entity extends  EntityTypeConfiguration, it will auto apply into dbcontext as table
+  ```csharp
+ public class Blog : TrackedAndSoftDelete
+    {
+        public string Url { get; set; }
+    }
 
+    public class BlogMap : EntityTypeConfiguration<Blog>
+    {
+        public override void Configure(EntityTypeBuilder<Blog> builder)
+        {
+            builder.ToTable("Blogs");
+            builder.Property(x => x.Url).HasMaxLength(100);
+            base.Configure(builder);
+        }
+    }
+ ``` 
+ ### View  
+        The entity extends  QueryTypeConfiguration, it will auto apply into dbcontext as table
+   ```csharp
+  public class BlogsView
+    {
+        public string Url { get; set; }
+    }
+
+    public class BlogsViewMap : QueryTypeConfiguration<BlogsView>
+    {
+        public override void Configure(QueryTypeBuilder<BlogsView> builder)
+        {
+            builder.ToView("BolgViews");
+            base.Configure(builder);
+        }
+    }
+ ``` 
 ### Insert : 
 ```csharp
 var user = _repository.Insert(new Blog() { Url = value });
