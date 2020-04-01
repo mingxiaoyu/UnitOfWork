@@ -50,6 +50,14 @@ namespace UnitOfWork.Tests
 
             Assert.Equal("Url", list.FirstOrDefault().Url);
 
+            await blogRepository.InsertAsync(new Blog() { Url = "Url2" });
+            await uow.CommitAsync();
+            list = await viewRepository.Table.ToListAsync();
+            Assert.True(list.Count == 2);
+
+            list = await viewRepository.Table.Where(x => x.Url == "Url").ToListAsync();
+            Assert.True(list.Count == 1);
+
         }
     }
 }
