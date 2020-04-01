@@ -28,12 +28,16 @@ namespace UnitOfWork.Tests
             var blogRepository = provider.GetService<IRepository<Blog>>();
             var bolgViewRepository = provider.GetService<IRepository<BlogsView>>();
 
-            var bolg = new Blog() { Url = "Url" };
-            var blogdb = await blogRepository.InsertAsync(bolg);
+
+            await blogRepository.InsertAsync(new Blog() { Url = "Url1" });
+            await blogRepository.InsertAsync(new Blog() { Url = "Url2" });
             await uow.CommitAsync();
             var list = bolgViewRepository.Table.ToList();
 
             Assert.True(list != null);
+            Assert.True(list.Count == 2);
+
+            list = await bolgViewRepository.Table.Where(x => x.Url == "Url1").ToListAsync();
             Assert.True(list.Count == 1);
         }
 
