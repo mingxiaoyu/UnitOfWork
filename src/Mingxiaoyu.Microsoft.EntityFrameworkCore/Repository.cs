@@ -37,7 +37,7 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
             return Entities.Find(keyValues);
         }
 
-        public Task<TEntity> GetByIdAsync(params object[] keyValues)
+        public ValueTask<TEntity> GetByIdAsync(params object[] keyValues)
         {
             return Entities.FindAsync(keyValues);
         }
@@ -55,7 +55,8 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
                 var model = (DbContext as DbContext).Model;
                 var entityTypes = model.GetEntityTypes();
                 var entityTypeOfEntity = entityTypes.First(t => t.ClrType == typeof(TEntity));
-                return entityTypeOfEntity.IsQueryType;
+
+                return entityTypeOfEntity.GetKeys().Count() == 0;// entityTypeOfEntity.IsQueryType;
             }
         }
 
@@ -87,7 +88,7 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
             Entities.AddRange(entities);
         }
 
-        public virtual Task<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
         {
             DbSetCheck();
 

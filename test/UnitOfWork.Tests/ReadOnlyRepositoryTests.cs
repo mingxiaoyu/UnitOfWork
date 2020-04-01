@@ -18,7 +18,7 @@ namespace UnitOfWork.Tests
         }
         public override IQueryable<BlogsView> GetQueryable()
         {
-            return this.DbContext.Query<BlogsView>().FromSql("select Url from [Blogs]");
+            return (this.DbContext.Query<BlogsView>() as DbSet<BlogsView>).FromSqlRaw("select Url from [Blogs]");
         }
     }
     public class ReadOnlyRepositoryTests : IClassFixture<DatabaseFixture>

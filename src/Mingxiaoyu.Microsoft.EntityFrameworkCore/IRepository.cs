@@ -11,13 +11,13 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 
         TEntity GetById(params object[] keyValues);
 
-        Task<TEntity> GetByIdAsync(params object[] keyValues);
+        ValueTask<TEntity> GetByIdAsync(params object[] keyValues);
 
         EntityEntry<TEntity> Insert(TEntity entity);
 
         void Insert(IEnumerable<TEntity> entities);
 
-        Task<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
+        ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
 
         Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default(CancellationToken));
 

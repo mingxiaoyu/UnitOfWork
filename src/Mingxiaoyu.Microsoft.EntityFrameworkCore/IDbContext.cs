@@ -18,6 +18,7 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
+        [Obsolete("Use Set() for entity types without keys")]
         DbQuery<TQuery> Query<TQuery>() where TQuery : class;
     }
 }

@@ -48,9 +48,10 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
             }
         }
 
+        [Obsolete]
         public IQueryable<TEntity> EntityFromSql(string sql, params object[] parameters)
         {
-            return Table.FromSql(CreateSqlWithParameters(sql, parameters), parameters);
+            return Table.FromSql(new RawSqlString(CreateSqlWithParameters(sql, parameters)), parameters);
         }
 
         private static string CreateSqlWithParameters(string sql, params object[] parameters)

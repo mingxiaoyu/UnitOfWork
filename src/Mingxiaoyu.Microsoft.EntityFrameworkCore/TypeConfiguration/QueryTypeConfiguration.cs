@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 {
+    [Obsolete("Use EntityTypeConfiguration<TEntity> instead")]
     public class QueryTypeConfiguration<TEntity> : IMappingConfiguration, IQueryTypeConfiguration<TEntity> where TEntity : class
     {
         public virtual void ApplyConfiguration(ModelBuilder modelBuilder)

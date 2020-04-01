@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.DependencyInjection;
-using Remotion.Linq.Parsing.ExpressionVisitors;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
