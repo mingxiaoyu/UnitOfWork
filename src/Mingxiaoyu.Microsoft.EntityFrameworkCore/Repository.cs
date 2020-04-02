@@ -10,8 +10,6 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 {
     public class Repository<TEntity> : ReadOnlyRepository<TEntity>, IRepository<TEntity> where TEntity : class
     {
-        private DbSet<TEntity> _entities;
-
         public Repository(IDbContext dbContext) : base(dbContext)
         {
         }

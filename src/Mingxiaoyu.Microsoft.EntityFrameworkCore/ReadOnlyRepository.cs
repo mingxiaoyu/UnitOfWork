@@ -12,6 +12,7 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
     public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : class
     {
         protected readonly IDbContext DbContext;
+        protected DbSet<TEntity> _entities;
 
         public ReadOnlyRepository(IDbContext DbContext)
         {
@@ -22,7 +23,12 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 
         public virtual IQueryable<TEntity> TableNoTracking => Table.AsNoTracking();
 
-        public abstract IQueryable<TEntity> GetQueryable();
+        public virtual IQueryable<TEntity> GetQueryable()
+        {
+            if (_entities == null)
+                _entities = DbContext.Set<TEntity>();
+            return _entities;
+        }
 
         public int Count(Expression<Func<TEntity, bool>> predicate = null)
         {
@@ -52,6 +58,16 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
         public IQueryable<TEntity> EntityFromSql(string sql, params object[] parameters)
         {
             return Table.FromSql(new RawSqlString(CreateSqlWithParameters(sql, parameters)), parameters);
+        }
+
+        public IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
+        {
+            return (Table as DbSet<TEntity>).FromSqlInterpolated(sql);
+        }
+
+        public IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            return (Table as DbSet<TEntity>).FromSqlRaw(sql, parameters);
         }
 
         private static string CreateSqlWithParameters(string sql, params object[] parameters)

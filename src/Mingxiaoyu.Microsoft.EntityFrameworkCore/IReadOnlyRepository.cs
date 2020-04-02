@@ -15,5 +15,9 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
         bool Exists(Expression<Func<TEntity, bool>> selector = null);
 
         IQueryable<TEntity> EntityFromSql(string sql, params object[] parameters);
+
+        IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
+
+        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
     }
 }
