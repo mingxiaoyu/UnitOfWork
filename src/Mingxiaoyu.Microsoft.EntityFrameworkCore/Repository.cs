@@ -60,10 +60,10 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 
         public override IQueryable<TEntity> GetQueryable()
         {
-            if (IsQueryType)
-                return DbContext.Query<TEntity>();
-            else
-                return Entities;
+            //if (IsQueryType)
+            //    return DbContext.Query<TEntity>();
+            //else
+            return Entities;
         }
 
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
@@ -130,7 +130,7 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
         {
             get
             {
-                DbSetCheck();
+                //DbSetCheck();
                 if (_entities == null)
                     _entities = DbContext.Set<TEntity>();
 

@@ -62,5 +62,20 @@ namespace UnitOfWork.Tests
             base.Configure(builder);
         }
     }
+
+    public class NewBlogsView
+    {
+        public string Url { get; set; }
+    }
+
+    public class NewBlogsViewMap : EntityTypeConfiguration<NewBlogsView>
+    {
+        public override void Configure(EntityTypeBuilder<NewBlogsView> builder)
+        {
+            builder.HasNoKey();
+            builder.ToView("NewBolgViews");
+            base.Configure(builder);
+        }
+    }
 }
 

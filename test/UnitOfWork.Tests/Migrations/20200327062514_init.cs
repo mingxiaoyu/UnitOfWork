@@ -38,6 +38,8 @@ namespace UnitOfWork.Tests.Migrations
 
             var sp = "CREATE VIEW BolgViews as select Url from [Blogs];";
             migrationBuilder.Sql(sp);
+            migrationBuilder.Sql(@"CREATE VIEW NewBolgViews as select Url from [Blogs];");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
