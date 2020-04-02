@@ -69,10 +69,12 @@ namespace Mingxiaoyu.Microsoft.EntityFrameworkCore
 
     public abstract class Tracked<TKey> : EntityBase<TKey>, ITrackedEntity where TKey : IEquatable<TKey>
     {
+#pragma warning disable IDE0044 // Add readonly modifier
         private DateTimeOffset _created;
         private string _createdUser;
         private DateTimeOffset? _modified;
         private string _modifiedUser;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         public DateTimeOffset Created => _created;
         public string CreatedUser => _createdUser;
